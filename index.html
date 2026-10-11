@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terratide — Agri-Aqua Project Pooling</title>
+<style>
+:root{--navy:#123b35;--green:#1e6b52;--mint:#eaf5ee;--lime:#d9edb7;--ink:#172824;--muted:#66756f;--line:#dce6df;--paper:#f7faf7;--white:#fff;--orange:#f0a34a}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--paper);color:var(--ink)}
+button,input,select,textarea{font:inherit} button{cursor:pointer}
+.topbar{height:70px;background:var(--white);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:21px;color:var(--navy);letter-spacing:-.5px}.logo{width:36px;height:36px;border-radius:12px;background:var(--green);display:grid;place-items:center;color:white;font-size:20px}
+.topright{display:flex;align-items:center;gap:12px}.role-pill{background:var(--mint);color:var(--green);border-radius:20px;padding:8px 12px;font-size:12px;font-weight:700}
+.layout{display:grid;grid-template-columns:230px minmax(0,1fr);max-width:1400px;margin:auto;min-height:calc(100vh - 70px)}
+.sidebar{background:#fff;border-right:1px solid var(--line);padding:24px 14px;display:flex;flex-direction:column;gap:7px}
+.navbtn{border:0;background:transparent;color:#50645b;text-align:left;padding:13px 14px;border-radius:12px;font-weight:650;display:flex;gap:12px;align-items:center}.navbtn:hover,.navbtn.active{background:var(--mint);color:var(--green)}.navicon{width:20px;text-align:center}
+.side-note{margin-top:auto;padding:15px;border-radius:14px;background:#f1f7ed;font-size:12px;color:#51665b;line-height:1.5}
+main{padding:30px clamp(18px,4vw,54px) 60px;min-width:0}.page{display:none;animation:fade .18s ease}.page.active{display:block}@keyframes fade{from{opacity:.4;transform:translateY(3px)}to{opacity:1;transform:none}}
+h1{font-size:clamp(27px,3vw,36px);margin:0 0 9px;color:var(--navy);letter-spacing:-1px}h2{font-size:20px;margin:0 0 16px;color:var(--navy)}h3{font-size:16px;margin:0 0 7px}p{line-height:1.55}.sub{color:var(--muted);margin:0 0 25px}.eyebrow{text-transform:uppercase;font-size:11px;letter-spacing:1.5px;font-weight:800;color:var(--green);margin-bottom:9px}
+.hero{background:linear-gradient(120deg,#123b35,#1e6b52);color:white;padding:30px;border-radius:22px;display:grid;grid-template-columns:1.35fr .65fr;gap:20px;align-items:center;margin-bottom:24px;overflow:hidden}.hero h1{color:white;font-size:clamp(27px,3.3vw,43px);max-width:560px}.hero p{color:#e3f0e8;max-width:550px}.hero-art{font-size:85px;text-align:center;filter:drop-shadow(0 10px 10px #0a292655)}.btn{border:0;border-radius:11px;padding:11px 16px;font-weight:750;display:inline-flex;align-items:center;justify-content:center;gap:8px}.primary{background:var(--green);color:white}.primary:hover{background:var(--navy)}.hero .primary{background:var(--lime);color:var(--navy)}.secondary{background:var(--mint);color:var(--green)}.outline{background:white;color:var(--green);border:1px solid var(--line)}.small{padding:8px 11px;font-size:12px}.full{width:100%}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}.stat,.card{background:white;border:1px solid var(--line);border-radius:16px;padding:19px}.stat-label{color:var(--muted);font-size:12px;font-weight:650}.stat-num{font-size:25px;font-weight:800;color:var(--navy);margin:7px 0}.stat-foot{font-size:11px;color:var(--green)}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:28px 0 15px}.section-head h2{margin:0}
+.projects{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.project-card{padding:0;overflow:hidden;background:white;border:1px solid var(--line);border-radius:16px;display:flex;flex-direction:column}.project-art{height:135px;display:grid;place-items:center;font-size:55px;background:linear-gradient(135deg,#e4f1d9,#d4ebe0)}.project-body{padding:16px;display:flex;flex-direction:column;flex:1}.tag{display:inline-block;background:var(--mint);color:var(--green);font-size:10px;font-weight:800;padding:5px 8px;border-radius:20px;margin-bottom:10px}.muted{color:var(--muted);font-size:13px}.money{font-weight:800;color:var(--navy)}.progress{height:8px;background:#e9efeb;border-radius:10px;overflow:hidden;margin:10px 0 7px}.progress span{display:block;height:100%;background:var(--green);border-radius:10px}.project-bottom{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:var(--muted);margin-bottom:14px}.project-body .btn{margin-top:auto}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}.toolbar input,.toolbar select,.field input,.field select,.field textarea{border:1px solid var(--line);background:white;border-radius:10px;padding:11px 12px;width:100%;outline:none;color:var(--ink)}.toolbar input{flex:1;min-width:180px}.toolbar select{width:auto;min-width:145px}
+.grid2{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}.detail-hero{background:linear-gradient(135deg,#e4f1d9,#d4ebe0);border-radius:17px;min-height:180px;display:grid;place-items:center;font-size:80px;margin-bottom:18px}.detail-card{background:white;border:1px solid var(--line);border-radius:16px;padding:22px}.field{display:flex;flex-direction:column;gap:7px;margin-bottom:15px}.field label{font-size:12px;font-weight:750;color:#43594f}.field textarea{min-height:85px;resize:vertical}.hint{font-size:11px;color:var(--muted);margin-top:5px}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px;background:white}table{border-collapse:collapse;width:100%;min-width:520px}th,td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);font-size:13px}th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);background:#f7faf7}tr:last-child td{border-bottom:0}
+.timeline{display:flex;flex-direction:column;gap:14px}.update{display:grid;grid-template-columns:42px 1fr;gap:12px;padding:16px;border:1px solid var(--line);background:white;border-radius:14px}.update-icon{width:42px;height:42px;border-radius:13px;background:var(--mint);display:grid;place-items:center;font-size:21px}.date{font-size:11px;color:var(--green);font-weight:800;margin-bottom:5px}
+.notice{padding:13px 15px;background:#fff7e8;border:1px solid #f6e2bf;color:#75501c;border-radius:12px;font-size:12px;line-height:1.5;margin:14px 0}
+.empty{padding:36px 15px;text-align:center;color:var(--muted);background:white;border:1px dashed var(--line);border-radius:15px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy);color:white;padding:13px 18px;border-radius:12px;box-shadow:0 10px 30px #0002;display:none;z-index:10;max-width:90vw;text-align:center;font-size:13px}.toast.show{display:block}
+.mobile-nav{display:none}
+@media(max-width:950px){.projects{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{grid-template-columns:1fr .35fr}.hero-art{font-size:65px}}
+@media(max-width:680px){.topbar{height:62px;padding:0 16px}.brand{font-size:19px}.role-pill{display:none}.layout{display:block;min-height:calc(100vh - 62px)}.sidebar{display:none}main{padding:20px 14px 90px}.hero{grid-template-columns:1fr;padding:23px}.hero-art{display:none}.stats{gap:8px}.stat{padding:13px}.stat-num{font-size:20px}.stat-label{font-size:10px}.projects{grid-template-columns:1fr}.project-art{height:115px}.grid2{grid-template-columns:1fr}.section-head{align-items:flex-start}.mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--line);z-index:8;justify-content:space-around;padding:7px 2px calc(7px + env(safe-area-inset-bottom))}.mobile-nav button{border:0;background:transparent;color:#607168;font-size:10px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 7px}.mobile-nav button.active{color:var(--green);font-weight:800}.mobile-nav span{font-size:19px}.toolbar{display:grid;grid-template-columns:1fr}.toolbar select{width:100%}.hero .btn{width:100%}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="logo">≈</div> terratide</div>
+  <div class="topright"><span class="role-pill">🌱 Growing opportunities together</span><button class="btn secondary small" onclick="navigate('profile')">👤 My profile</button></div>
+</header>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <button class="navbtn active" data-page="home" onclick="navigate('home')"><span class="navicon">⌂</span> Overview</button>
+  <button class="navbtn" data-page="projects" onclick="navigate('projects')"><span class="navicon">🌾</span> Explore projects</button>
+  <button class="navbtn" data-page="investments" onclick="navigate('investments')"><span class="navicon">◈</span> My poolings</button>
+  <button class="navbtn" data-page="tidetrace" onclick="navigate('tidetrace')"><span class="navicon">↗</span> TideTrace updates</button>
+  <button class="navbtn" data-page="submit" onclick="navigate('submit')"><span class="navicon">＋</span> Submit a project</button>
+  <button class="navbtn" data-page="profile" onclick="navigate('profile')"><span class="navicon">☺</span> Profile & help</button>
+  <div class="side-note"><b>🌊 Small contributions. Shared growth.</b><br>Explore sample agri-aqua projects and see how Project Pooling could work.</div>
+</aside>
+<main>
+<section class="page active" id="page-home">
+  <div class="hero"><div><div class="eyebrow" style="color:#d9edb7">Welcome to Terratide</div><h1>Let’s grow a better harvest, together.</h1><p>A simple way to discover agri-aqua projects and see how people can pool support for local farmers and fisherfolk.</p><button class="btn primary" onclick="navigate('projects')">Explore projects <span>→</span></button></div><div class="hero-art">🌱🐟</div></div>
+  <div class="stats">
+    <div class="stat"><div class="stat-label">Sample projects</div><div class="stat-num" id="statProjects">3</div><div class="stat-foot">Available to explore</div></div>
+    <div class="stat"><div class="stat-label">Illustrative pooled funds</div><div class="stat-num">₱84,500</div><div class="stat-foot">Demo figures only</div></div>
+    <div class="stat"><div class="stat-label">Your demo poolings</div><div class="stat-num" id="statPoolings">0</div><div class="stat-foot">Simulated contributions</div></div>
+  </div>
+  <div class="section-head"><h2>Featured projects</h2><button class="btn outline small" onclick="navigate('projects')">View all →</button></div>
+  <div class="projects" id="featuredProjects"></div>
+  <div class="notice">Prototype note: All projects, funding amounts, and contributions are fictional examples. This demo does not accept money or connect to a real database.</div>
+</section>
+<section class="page" id="page-projects">
+  <div class="eyebrow">Discover opportunities</div><h1>Explore projects</h1><p class="sub">Find an agri-aqua project to learn about. Use search or filters to narrow your options.</p>
+  <div class="toolbar"><input id="searchProjects" placeholder="🔎 Search projects or location..." oninput="renderProjects()"><select id="filterCategory" onchange="renderProjects()"><option value="all">All categories</option><option value="Aquaculture">Aquaculture</option><option value="Farming">Farming</option><option value="Fisheries">Fisheries</option></select><select id="filterStatus" onchange="renderProjects()"><option value="all">All funding stages</option><option value="Open">Open for pooling</option><option value="Funded">Fully pooled</option></select></div>
+  <div class="projects" id="allProjects"></div>
+</section>
+<section class="page" id="page-detail">
+  <button class="btn outline small" onclick="navigate('projects')">← Back to projects</button>
+  <div class="grid2" style="margin-top:17px"><div><div class="detail-hero" id="detailArt">🐟</div><span class="tag" id="detailTag">Aquaculture</span><h1 id="detailTitle">Community Tilapia Pond</h1><p class="sub" id="detailLocation">Agusan del Norte</p><p id="detailDescription"></p><div class="detail-card"><h2>Project overview</h2><p class="muted" id="detailOverview"></p><div class="progress"><span id="detailProgress" style="width:0%"></span></div><div class="project-bottom"><span id="detailRaised"></span><span id="detailPercent"></span></div><p class="muted">Project owners should provide regular updates and supporting records. A real platform would verify submitted information.</p></div></div>
+  <div class="detail-card"><div class="eyebrow">Project Pooling</div><h2>Join the pool</h2><p class="muted">Preview how a contribution would work. This is a simulation only.</p><div class="stat" style="margin:17px 0"><div class="stat-label">Target funding</div><div class="stat-num" id="detailTarget">₱50,000</div><div class="stat-foot">Illustrative amount</div></div><div class="field"><label for="contribution">Demo contribution (₱)</label><input id="contribution" type="number" min="100" step="50" value="500"></div><div class="field"><label for="contributorName">Your display name</label><input id="contributorName" placeholder="e.g., Alex" maxlength="40"></div><button class="btn primary full" onclick="simulatePool()">Preview my pooling →</button><div class="hint">No payment is collected. Do not enter bank or card details.</div><div id="poolPreview" style="display:none;margin-top:16px"></div></div></div>
+</section>
+<section class="page" id="page-investments">
+  <div class="eyebrow">Your activity</div><h1>My poolings</h1><p class="sub">See the contributions you simulated during this demo.</p>
+  <div class="stats"><div class="stat"><div class="stat-label">Total demo contributions</div><div class="stat-num" id="totalContributions">₱0</div></div><div class="stat"><div class="stat-label">Projects joined</div><div class="stat-num" id="joinedCount">0</div></div><div class="stat"><div class="stat-label">Status</div><div class="stat-num" style="font-size:19px">Demo only</div></div></div>
+  <div class="table-wrap" id="poolingsTable"><div class="empty">You have no demo poolings yet.<br><br><button class="btn primary" onclick="navigate('projects')">Explore projects</button></div></div>
+  <div class="notice">A real investment platform would need legal compliance, risk disclosures, secure payments, identity checks, and clear terms. This prototype does not offer actual investments.</div>
+</section>
+<section class="page" id="page-tidetrace">
+  <div class="eyebrow">Transparency in every tide</div><h1>TideTrace updates</h1><p class="sub">A sample activity feed showing how project owners could share progress with supporters.</p>
+  <div class="toolbar"><select id="traceFilter" onchange="renderTrace()"><option value="all">All projects</option><option value="tilapia">Community Tilapia Pond</option><option value="rice">Rice for Tomorrow</option><option value="seaweed">Seaweed Livelihood Group</option></select></div>
+  <div class="timeline" id="traceList"></div>
+</section>
+<section class="page" id="page-submit">
+  <div class="eyebrow">For farmers & project owners</div><h1>Submit a project</h1><p class="sub">Share basic information about your agri-aqua project for a sample review.</p>
+  <div class="detail-card" style="max-width:760px"><div class="notice">Submitting here only adds a sample project to this page during your current browser session. It is not sent to a real organization.</div>
+  <form id="submitForm" onsubmit="submitProject(event)">
+    <div class="field"><label for="ownerName">Project owner / group name *</label><input id="ownerName" required placeholder="e.g., San Isidro Farmers Group"></div>
+    <div class="field"><label for="newTitle">Project title *</label><input id="newTitle" required maxlength="65" placeholder="e.g., Vegetable Garden Expansion"></div>
+    <div class="field"><label for="newCategory">Project category *</label><select id="newCategory" required><option value="">Choose a category</option><option>Farming</option><option>Aquaculture</option><option>Fisheries</option></select></div>
+    <div class="field"><label for="newLocation">Location *</label><input id="newLocation" required placeholder="Municipality, province"></div>
+    <div class="field"><label for="newTarget">Target funding (₱) *</label><input id="newTarget" required type="number" min="1000" step="500" placeholder="e.g., 25000"></div>
+    <div class="field"><label for="newDescription">Project description *</label><textarea id="newDescription" required maxlength="450" placeholder="What will the project do, and how will it support the community?"></textarea></div>
+    <button class="btn primary" type="submit">Submit sample project →</button>
+  </form></div>
+</section>
+<section class="page" id="page-profile">
+  <div class="eyebrow">Your Terratide space</div><h1>Profile & help</h1><p class="sub">Choose a demo role and learn how to navigate the prototype.</p>
+  <div class="grid2"><div class="detail-card"><h2>Demo profile</h2><div class="field"><label for="roleSelect">I am using Terratide as a...</label><select id="roleSelect" onchange="updateRole()"><option>Investor / supporter</option><option>Farmer / fisherfolk / project owner</option><option>Reviewer / adviser</option></select></div><div class="field"><label for="profileName">Display name</label><input id="profileName" placeholder="Your name (optional)"></div><button class="btn primary" onclick="saveProfile()">Save demo profile</button><p class="hint">Profile settings are temporary and are not saved to an account.</p></div>
+  <div class="detail-card"><h2>How to use this prototype</h2><p> <b>1. Explore projects:</b> Search and filter sample projects.</p><p><b>2. Open a project:</b> Select “View project” to read details.</p><p><b>3. Try Project Pooling:</b> Enter a sample amount and preview a simulated contribution.</p><p><b>4. Follow TideTrace:</b> View sample progress updates.</p><p><b>5. Submit a project:</b> Try the project-owner form to see the flow.</p><div class="notice">All sample data is illustrative. No money is transferred, and no data is sent to a server.</div></div></div>
+</section>
+</main>
+</div>
+<nav class="mobile-nav" id="mobileNav">
+<button class="active" data-page="home" onclick="navigate('home')"><span>⌂</span>Home</button>
+<button data-page="projects" onclick="navigate('projects')"><span>🌾</span>Explore</button>
+<button data-page="investments" onclick="navigate('investments')"><span>◈</span>Poolings</button>
+<button data-page="tidetrace" onclick="navigate('tidetrace')"><span>↗</span>Updates</button>
+<button data-page="profile" onclick="navigate('profile')"><span>☺</span>Profile</button>
+</nav>
+<div class="toast" id="toast"></div>
+<script>
+const projects = [
+{id:'tilapia',title:'Community Tilapia Pond',category:'Aquaculture',location:'Agusan del Norte',emoji:'🐟',target:50000,raised:32500,status:'Open',owner:'San Isidro Aqua Group',description:'Help a local community improve its tilapia pond, strengthen fish production, and support livelihood opportunities for participating families.',overview:'Funding is planned for pond preparation, fingerlings, feed, and basic equipment. Updates would show progress and spending records.',featured:true},
+{id:'rice',title:'Rice for Tomorrow',category:'Farming',location:'Butuan City',emoji:'🌾',target:80000,raised:80000,status:'Funded',owner:'Green Fields Farmers',description:'A community rice-growing project focused on seeds, supplies, and better access to essential farm inputs.',overview:'The project plans to purchase quality seeds and supplies for the planting cycle, with updates from planting through harvest.',featured:true},
+{id:'seaweed',title:'Seaweed Livelihood Group',category:'Fisheries',location:'Surigao del Norte',emoji:'🌊',target:40000,raised:18500,status:'Open',owner:'Blue Coast Cooperative',description:'Support a small seaweed-growing group with materials and equipment for more reliable coastal livelihood activities.',overview:'Funding is planned for seedlings, lines, ropes, and shared equipment. Project owners would post progress photos and activity notes.',featured:true}
+];
+let poolings=[];
+let selectedProject='tilapia';
+let activePage='home';
+const peso=n=>'₱'+Number(n).toLocaleString('en-PH',{maximumFractionDigits:2});
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600)}
+function navigate(page){
+ if(page==='detail'){activePage='detail'}else{activePage=page}
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ const section=document.getElementById('page-'+page);if(section)section.classList.add('active');
+ document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+ if(page==='projects')renderProjects();if(page==='home')renderFeatured();if(page==='investments')renderPoolings();if(page==='tidetrace')renderTrace();
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function projectCard(p){const pct=Math.min(100,Math.round(p.raised/p.target*100));return `<article class="project-card"><div class="project-art">${p.emoji}</div><div class="project-body"><span class="tag">${p.category}</span><h3>${esc(p.title)}</h3><div class="muted">📍 ${esc(p.location)}</div><p class="muted">${esc(p.description.slice(0,95))}${p.description.length>95?'…':''}</p><div class="money">${peso(p.raised)} <span class="muted">of ${peso(p.target)}</span></div><div class="progress"><span style="width:${pct}%"></span></div><div class="project-bottom"><span>${pct}% pooled</span><span>${p.status==='Funded'?'✓ Fully pooled':'● Open'}</span></div><button class="btn secondary full" onclick="openProject('${p.id}')">View project →</button></div></article>`}
+function renderFeatured(){document.getElementById('featuredProjects').innerHTML=projects.slice(0,3).map(projectCard).join('');document.getElementById('statProjects').textContent=projects.length;document.getElementById('statPoolings').textContent=poolings.length}
+function renderProjects(){const q=(document.getElementById('searchProjects')?.value||'').toLowerCase();const cat=document.getElementById('filterCategory')?.value||'all';const status=document.getElementById('filterStatus')?.value||'all';const filtered=projects.filter(p=>(p.title+' '+p.location+' '+p.category+' '+p.owner).toLowerCase().includes(q)&&(cat==='all'||p.category===cat)&&(status==='all'||p.status===status));document.getElementById('allProjects').innerHTML=filtered.length?filtered.map(projectCard).join(''):'<div class="empty" style="grid-column:1/-1">No projects match your search. Try another keyword or filter.</div>'}
+function openProject(id){const p=projects.find(x=>x.id===id);if(!p)return;selectedProject=id;document.getElementById('detailArt').textContent=p.emoji;document.getElementById('detailTag').textContent=p.category;document.getElementById('detailTitle').textContent=p.title;document.getElementById('detailLocation').textContent='📍 '+p.location+' · '+p.owner;document.getElementById('detailDescription').textContent=p.description;document.getElementById('detailOverview').textContent=p.overview;document.getElementById('detailTarget').textContent=peso(p.target);document.getElementById('detailProgress').style.width=Math.min(100,p.raised/p.target*100)+'%';document.getElementById('detailRaised').textContent=peso(p.raised)+' pooled';document.getElementById('detailPercent').textContent=Math.round(p.raised/p.target*100)+'% of target';document.getElementById('poolPreview').style.display='none';navigate('detail')}
+function simulatePool(){const p=projects.find(x=>x.id===selectedProject);const amount=Number(document.getElementById('contribution').value);const name=document.getElementById('contributorName').value.trim()||'Demo supporter';if(!amount||amount<100){toast('Enter a demo amount of at least ₱100.');return}if(p.status==='Funded'){toast('This sample project is already fully pooled.');return}const preview=document.getElementById('poolPreview');preview.style.display='block';preview.innerHTML=`<div class="notice" style="background:#eaf5ee;border-color:#cfe6d6;color:#1e6b52"><b>✓ Preview ready</b><br>${esc(name)}, you are previewing a ${peso(amount)} demo contribution to ${esc(p.title)}. No payment has been made.<br><br><button class="btn primary full" onclick="confirmPool(${amount},'${p.id}')">Confirm demo pooling</button></div>`}
+function confirmPool(amount,id){const p=projects.find(x=>x.id===id);const name=document.getElementById('contributorName').value.trim()||'Demo supporter';poolings.push({id:'P'+String(poolings.length+1).padStart(3,'0'),projectId:id,title:p.title,amount,name,date:new Date().toLocaleDateString(),status:'Simulated'});p.raised=Math.min(p.target,p.raised+amount);if(p.raised>=p.target)p.status='Funded';renderFeatured();toast('Demo pooling added! No money was transferred.');navigate('investments')}
+function renderPoolings(){document.getElementById('totalContributions').textContent=peso(poolings.reduce((s,p)=>s+p.amount,0));document.getElementById('joinedCount').textContent=new Set(poolings.map(p=>p.projectId)).size;document.getElementById('statPoolings').textContent=poolings.length;if(!poolings.length){document.getElementById('poolingsTable').innerHTML='<div class="empty">You have no demo poolings yet.<br><br><button class="btn primary" onclick="navigate(\\'projects\\')">Explore projects</button></div>';return}document.getElementById('poolingsTable').innerHTML='<table><thead><tr><th>Reference</th><th>Project</th><th>Demo amount</th><th>Date</th><th>Status</th></tr></thead><tbody>'+poolings.map(p=>`<tr><td>${p.id}</td><td>${esc(p.title)}</td><td><b>${peso(p.amount)}</b></td><td>${p.date}</td><td><span class="tag">${p.status}</span></td></tr>`).join('')+'</tbody></table>'}
+const traces=[{project:'tilapia',emoji:'📷',date:'Sample update · Oct 8',title:'Pond preparation underway',body:'The group reports that pond cleaning and preparation have started. A real project would attach dated photos and supporting records.'},{project:'rice',emoji:'🌱',date:'Sample update · Oct 6',title:'Seeds and supplies prepared',body:'The sample team has organized supplies for the next planting cycle. Actual updates should include receipts and activity evidence.'},{project:'seaweed',emoji:'🧵',date:'Sample update · Oct 3',title:'Materials checklist completed',body:'The group prepared a list of needed ropes and growing materials. This is a demonstration update, not a verified report.'},{project:'tilapia',emoji:'📝',date:'Sample update · Oct 1',title:'Project plan shared',body:'The project owner shared the initial plan and intended use of funds. In a live service, submitted details would be reviewed.'}];
+function renderTrace(){const f=document.getElementById('traceFilter')?.value||'all';const arr=traces.filter(t=>f==='all'||t.project===f);document.getElementById('traceList').innerHTML=arr.map(t=>`<article class="update"><div class="update-icon">${t.emoji}</div><div><div class="date">${t.date}</div><h3>${esc(t.title)}</h3><p class="muted">${esc(t.body)}</p><span class="tag">Sample / unverified</span></div></article>`).join('')}
+function submitProject(e){e.preventDefault();const target=Number(document.getElementById('newTarget').value);if(!target||target<1000){toast('Enter a target of at least ₱1,000.');return}const cat=document.getElementById('newCategory').value;const emoji=cat==='Farming'?'🌱':cat==='Fisheries'?'🌊':'🐟';const p={id:'custom'+Date.now(),title:document.getElementById('newTitle').value.trim(),category:cat,location:document.getElementById('newLocation').value.trim(),emoji,target,raised:0,status:'Open',owner:document.getElementById('ownerName').value.trim(),description:document.getElementById('newDescription').value.trim(),overview:'This is a newly submitted sample project. In a live platform, the project would be reviewed before it could accept contributions.'};projects.push(p);e.target.reset();renderFeatured();toast('Sample project added! It is not sent for real review.');openProject(p.id)}
+function updateRole(){const role=document.getElementById('roleSelect').value;document.querySelector('.role-pill').textContent=role==='Investor / supporter'?'🌱 Growing opportunities together':role==='Reviewer / adviser'?'✓ Reviewer demo view':'🌾 Project owner demo view'}
+function saveProfile(){const name=document.getElementById('profileName').value.trim();updateRole();toast(name?'Demo profile updated for '+name+'.':'Demo role updated.');}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+renderFeatured();renderProjects();renderTrace();
+</script>
+</body>
+</html>
